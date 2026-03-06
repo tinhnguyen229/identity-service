@@ -6,6 +6,7 @@ import com.devteria.identity_service.dto.request.UserUpdateRequest;
 import com.devteria.identity_service.entity.User;
 import com.devteria.identity_service.exception.BusinessException;
 import com.devteria.identity_service.exception.ErrorCode;
+import com.devteria.identity_service.mapper.UserMapper;
 import com.devteria.identity_service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserMapper userMapper;
+
     public User createUser(UserCreationRequest request) {
-        User newUser = new User();
+
         String username = request.getUsername();
         String email = request.getEmail();
 
@@ -32,13 +36,15 @@ public class UserService {
             throw new BusinessException(ErrorCode.EMAIL_EXISTED);
         }
 
+//        User newUser = new User();
+//        newUser.setUsername(username);
+//        newUser.setPassword(request.getPassword());
+//        newUser.setEmail(email);
+//        newUser.setFirstName(request.getFirstName());
+//        newUser.setLastName(request.getLastName());
+//        newUser.setBirthday(request.getDob());
 
-        newUser.setUsername(username);
-        newUser.setPassword(request.getPassword());
-        newUser.setEmail(email);
-        newUser.setFirstName(request.getFirstName());
-        newUser.setLastName(request.getLastName());
-        newUser.setBirthday(request.getDob());
+        User newUser = userMapper.toUser(request);
 
         return userRepository.save(newUser);
     }
