@@ -60,12 +60,13 @@ public class UserService {
     public User updateUser(String userId, UserUpdateRequest request) {
         User user = this.getUser(userId);
 
-        String email = request.getEmail();
-        if (email != null && !email.isEmpty()) {
-            user.setEmail(email);
-        }
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
+//        String email = request.getEmail();
+//        if (email != null && !email.isEmpty()) {
+//            user.setEmail(email);
+//        }
+//        user.setFirstName(request.getFirstName());
+//        user.setLastName(request.getLastName());
+        userMapper.updateUser(user, request);
 
         return userRepository.save(user);
 
