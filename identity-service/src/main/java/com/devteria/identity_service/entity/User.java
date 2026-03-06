@@ -69,12 +69,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public LocalDate getBirthday() {
+    public LocalDate getDob() {
         return dob;
     }
 
-    public void setBirthday(LocalDate birthday) {
-        this.dob = birthday;
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
     }
 
 }

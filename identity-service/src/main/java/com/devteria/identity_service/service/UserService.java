@@ -3,6 +3,7 @@ package com.devteria.identity_service.service;
 
 import com.devteria.identity_service.dto.request.UserCreationRequest;
 import com.devteria.identity_service.dto.request.UserUpdateRequest;
+import com.devteria.identity_service.dto.response.UserResponse;
 import com.devteria.identity_service.entity.User;
 import com.devteria.identity_service.exception.BusinessException;
 import com.devteria.identity_service.exception.ErrorCode;
@@ -53,12 +54,18 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User getUser(String userId) {
+    public UserResponse getUser(String userId) {
+        User user = getUserById(userId);
+        return userMapper.toResponse(user);
+//        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found!"));
+    }
+
+    private User getUserById(String userId) {
         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found!"));
     }
 
     public User updateUser(String userId, UserUpdateRequest request) {
-        User user = this.getUser(userId);
+        User user = this.getUserById(userId);
 
 //        String email = request.getEmail();
 //        if (email != null && !email.isEmpty()) {
