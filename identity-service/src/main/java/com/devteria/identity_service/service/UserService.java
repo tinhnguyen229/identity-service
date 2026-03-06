@@ -10,6 +10,8 @@ import com.devteria.identity_service.exception.ErrorCode;
 import com.devteria.identity_service.mapper.UserMapper;
 import com.devteria.identity_service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,6 +48,10 @@ public class UserService {
 //        newUser.setBirthday(request.getDob());
 
         User newUser = userMapper.toUser(request);
+
+        // Mã hóa password trước khi lưu xuống DB
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         return userRepository.save(newUser);
     }
