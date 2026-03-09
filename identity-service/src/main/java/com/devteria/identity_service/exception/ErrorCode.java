@@ -1,6 +1,7 @@
 package com.devteria.identity_service.exception;
 
 public enum ErrorCode {
+    UNAUTHENTICATED(4001, "Unauthenticated"),
     ENUM_KEY_INVALID(4000, "Enum key invalid"),
     UNKNOWN_ERROR(9999, "Unknown Error"),
     USER_EXISTED(1001, "User existed"),

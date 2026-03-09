@@ -36,5 +36,11 @@ public class AuthenticationController {
         return apiResponse;
     }
 
+    @PostMapping("/v2/login")
+    ApiResponse login2(@RequestBody AuthenticationRequest request) {
+        AuthenticationResponse response = authenticationService.authenticateJWT(request);
+        return ApiResponse.<AuthenticationResponse>builder().result(response).build();
+    }
+
 
 }
