@@ -3,7 +3,9 @@ package com.devteria.identity_service.controller;
 
 import com.devteria.identity_service.dto.request.ApiResponse;
 import com.devteria.identity_service.dto.request.AuthenticationRequest;
+import com.devteria.identity_service.dto.request.IntrospectRequest;
 import com.devteria.identity_service.dto.response.AuthenticationResponse;
+import com.devteria.identity_service.dto.response.IntrospectResponse;
 import com.devteria.identity_service.service.AuthenticationService;
 import com.devteria.identity_service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,13 @@ public class AuthenticationController {
     ApiResponse login2(@RequestBody AuthenticationRequest request) {
         AuthenticationResponse response = authenticationService.authenticateJWT(request);
         return ApiResponse.<AuthenticationResponse>builder().result(response).build();
+    }
+
+    @PostMapping("v1/introspect")
+    ApiResponse instrospect(@RequestBody IntrospectRequest request) {
+        IntrospectResponse introspectResponse = authenticationService.introspect(request);
+        ApiResponse<IntrospectResponse> apiResponse = ApiResponse.<IntrospectResponse>builder().result(introspectResponse).build();
+        return apiResponse;
     }
 
 
