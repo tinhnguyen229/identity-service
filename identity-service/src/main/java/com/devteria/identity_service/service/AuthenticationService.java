@@ -15,7 +15,9 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,8 +34,11 @@ public class AuthenticationService {
     @Autowired
     private UserRepository userRepository;
 
-    static final String SIGNER_KEY = "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij";
+//    static final String SIGNER_KEY = "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij";
 
+    @NonFinal
+    @Value("${jwt.signerKey}")
+    protected String SIGNER_KEY;
 
     public boolean authenticate(AuthenticationRequest request) {
         var user = userRepository
@@ -91,6 +96,7 @@ public class AuthenticationService {
     }
 
     public IntrospectResponse introspect(IntrospectRequest request) {
+        System.out.println(SIGNER_KEY);
         String token = request.getToken();
         try {
             JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
