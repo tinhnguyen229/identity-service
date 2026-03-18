@@ -1,14 +1,14 @@
-package com.devteria.identity_service.service;
+package com.devteria.identity_service.user.service;
 
 
-import com.devteria.identity_service.dto.request.UserCreationRequest;
-import com.devteria.identity_service.dto.request.UserUpdateRequest;
-import com.devteria.identity_service.dto.response.UserResponse;
-import com.devteria.identity_service.entity.User;
+import com.devteria.identity_service.user.dto.request.UserCreationRequest;
+import com.devteria.identity_service.user.dto.request.UserUpdateRequest;
+import com.devteria.identity_service.user.dto.response.UserResponse;
+import com.devteria.identity_service.user.entity.User;
 import com.devteria.identity_service.exception.BusinessException;
 import com.devteria.identity_service.exception.ErrorCode;
-import com.devteria.identity_service.mapper.UserMapper;
-import com.devteria.identity_service.repository.UserRepository;
+import com.devteria.identity_service.user.mapper.UserMapper;
+import com.devteria.identity_service.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

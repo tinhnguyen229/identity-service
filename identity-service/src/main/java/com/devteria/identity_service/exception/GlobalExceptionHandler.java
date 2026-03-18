@@ -1,6 +1,6 @@
 package com.devteria.identity_service.exception;
 
-import com.devteria.identity_service.dto.request.ApiResponse;
+import com.devteria.identity_service.user.dto.request.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,6 +24,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value=Exception.class)
     ResponseEntity<ApiResponse> handleUnknownException(Exception e){
+        System.out.println("======> ERROR: " + e.getMessage());
         ApiResponse apiResponse = new ApiResponse();
         ErrorCode unknownError = ErrorCode.UNKNOWN_ERROR;
 
@@ -51,6 +52,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value=MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse> handlingNotValidException(MethodArgumentNotValidException exception) {
         String enumKey = exception.getFieldError().getDefaultMessage();
+        System.out.println("======> ERROR: " + enumKey);
 
         ErrorCode errorCode = ErrorCode.ENUM_KEY_INVALID;
         try {

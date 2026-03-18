@@ -1,6 +1,6 @@
-package com.devteria.identity_service.repository;
+package com.devteria.identity_service.user.repository;
 
-import com.devteria.identity_service.entity.User;
+import com.devteria.identity_service.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

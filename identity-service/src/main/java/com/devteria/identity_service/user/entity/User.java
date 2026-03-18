@@ -1,4 +1,4 @@
-package com.devteria.identity_service.entity;
+package com.devteria.identity_service.user.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

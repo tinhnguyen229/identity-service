@@ -1,4 +1,4 @@
-package com.devteria.identity_service.dto.response;
+package com.devteria.identity_service.user.dto.response;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

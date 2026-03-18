@@ -1,13 +1,12 @@
-package com.devteria.identity_service.controller;
+package com.devteria.identity_service.user.controller;
 
 
-import com.devteria.identity_service.dto.request.ApiResponse;
-import com.devteria.identity_service.dto.request.AuthenticationRequest;
-import com.devteria.identity_service.dto.request.IntrospectRequest;
-import com.devteria.identity_service.dto.response.AuthenticationResponse;
-import com.devteria.identity_service.dto.response.IntrospectResponse;
-import com.devteria.identity_service.service.AuthenticationService;
-import com.devteria.identity_service.service.UserService;
+import com.devteria.identity_service.user.dto.request.ApiResponse;
+import com.devteria.identity_service.user.dto.request.AuthenticationRequest;
+import com.devteria.identity_service.user.dto.request.IntrospectRequest;
+import com.devteria.identity_service.user.dto.response.AuthenticationResponse;
+import com.devteria.identity_service.user.dto.response.IntrospectResponse;
+import com.devteria.identity_service.user.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

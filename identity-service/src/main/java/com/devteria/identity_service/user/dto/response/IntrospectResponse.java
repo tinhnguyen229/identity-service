@@ -1,4 +1,5 @@
-package com.devteria.identity_service.dto.response;
+package com.devteria.identity_service.user.dto.response;
+
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,8 +9,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class AuthenticationResponse {
-    boolean authenticated;
-    String token;
-
+public class IntrospectResponse {
+    boolean valid;
 }

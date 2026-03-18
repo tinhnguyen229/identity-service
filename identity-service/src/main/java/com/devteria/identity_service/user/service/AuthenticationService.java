@@ -1,15 +1,13 @@
-package com.devteria.identity_service.service;
+package com.devteria.identity_service.user.service;
 
-import com.devteria.identity_service.dto.request.ApiResponse;
-import com.devteria.identity_service.dto.request.AuthenticationRequest;
-import com.devteria.identity_service.dto.request.IntrospectRequest;
-import com.devteria.identity_service.dto.response.AuthenticationResponse;
-import com.devteria.identity_service.dto.response.IntrospectResponse;
-import com.devteria.identity_service.dto.response.UserResponse;
-import com.devteria.identity_service.entity.User;
+import com.devteria.identity_service.user.dto.request.AuthenticationRequest;
+import com.devteria.identity_service.user.dto.request.IntrospectRequest;
+import com.devteria.identity_service.user.dto.response.AuthenticationResponse;
+import com.devteria.identity_service.user.dto.response.IntrospectResponse;
+import com.devteria.identity_service.user.entity.User;
 import com.devteria.identity_service.exception.BusinessException;
 import com.devteria.identity_service.exception.ErrorCode;
-import com.devteria.identity_service.repository.UserRepository;
+import com.devteria.identity_service.user.repository.UserRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -22,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;

@@ -1,11 +1,11 @@
-package com.devteria.identity_service.controller;
+package com.devteria.identity_service.user.controller;
 
-import com.devteria.identity_service.dto.request.ApiResponse;
-import com.devteria.identity_service.dto.request.UserCreationRequest;
-import com.devteria.identity_service.dto.request.UserUpdateRequest;
-import com.devteria.identity_service.dto.response.UserResponse;
-import com.devteria.identity_service.entity.User;
-import com.devteria.identity_service.service.UserService;
+import com.devteria.identity_service.user.dto.request.ApiResponse;
+import com.devteria.identity_service.user.dto.request.UserCreationRequest;
+import com.devteria.identity_service.user.dto.request.UserUpdateRequest;
+import com.devteria.identity_service.user.dto.response.UserResponse;
+import com.devteria.identity_service.user.entity.User;
+import com.devteria.identity_service.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
