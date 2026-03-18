@@ -1,15 +1,15 @@
-package com.devteria.identity_service.mapper;
+package com.devteria.identity_service.user.mapper;
 
-import com.devteria.identity_service.dto.request.UserCreationRequest;
-import com.devteria.identity_service.dto.request.UserUpdateRequest;
-import com.devteria.identity_service.dto.response.UserResponse;
-import com.devteria.identity_service.entity.User;
+import com.devteria.identity_service.user.dto.request.UserCreationRequest;
+import com.devteria.identity_service.user.dto.request.UserUpdateRequest;
+import com.devteria.identity_service.user.dto.response.UserResponse;
+import com.devteria.identity_service.user.entity.User;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-03-16T16:45:53+0700",
+    date = "2026-03-18T11:39:00+0700",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.8 (Oracle Corporation)"
 )
 @Component
