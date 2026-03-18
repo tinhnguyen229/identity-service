@@ -21,6 +21,7 @@ public class ItemGroups {
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     ItemStatus status = ItemStatus.ACTIVE; // Mặc định là active
 
     @Column(columnDefinition = "TEXT")
@@ -30,6 +31,7 @@ public class ItemGroups {
     private String usingTime;
 
     @Column(name = "is_delete")
+    @Builder.Default
     private Boolean isDelete = false;
 
     @Column(name="category_id")

@@ -1,6 +1,7 @@
 package com.devteria.identity_service.items.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,8 @@ public class ItemGroupsCreateReq {
     private Long categoryId;
 
     @NotBlank
+    @NotNull
+    @NotEmpty
     private String name;
 
     private String status;
