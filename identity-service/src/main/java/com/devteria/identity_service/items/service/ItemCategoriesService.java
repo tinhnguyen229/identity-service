@@ -2,12 +2,19 @@ package com.devteria.identity_service.items.service;
 
 import com.devteria.identity_service.common.enumerate.ItemStatus;
 import com.devteria.identity_service.items.dto.ItemCategoriesCreateReq;
+import com.devteria.identity_service.items.dto.ItemCategoriesRes;
 import com.devteria.identity_service.items.dto.ItemCategoriesUpdateReq;
 import com.devteria.identity_service.items.entity.ItemCategories;
 import com.devteria.identity_service.items.mapper.ItemCategoriesMapper;
 import com.devteria.identity_service.items.repository.ItemCategoriesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ItemCategoriesService {
@@ -49,6 +56,28 @@ public class ItemCategoriesService {
 
     public void deleteItemCategories(Long id) {
         itemCategoriesRepo.deleteById(id);
+    }
+
+    public Page<ItemCategoriesRes> getAll(int page, int size, ItemStatus status) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        Page<ItemCategories> result;
+
+        if (status != null) {
+            result = itemCategoriesRepo.findByIsDeleteFalseAndStatus(pageable, status);
+        } else {
+            result = itemCategoriesRepo.findAllByIsDeleteFalse(pageable);
+        }
+
+        return result.map(entity -> this.toResponse(entity));
+    }
+
+    private ItemCategoriesRes toResponse(ItemCategories entity) {
+        return ItemCategoriesRes.builder()
+                .id(entity.getId())
+                .code(entity.getCode())
+                .name(entity.getName())
+                .build();
     }
 
 }

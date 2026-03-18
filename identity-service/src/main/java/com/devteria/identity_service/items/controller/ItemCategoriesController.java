@@ -1,5 +1,6 @@
 package com.devteria.identity_service.items.controller;
 
+import com.devteria.identity_service.common.enumerate.ItemStatus;
 import com.devteria.identity_service.items.dto.ItemCategoriesCreateReq;
 import com.devteria.identity_service.items.dto.ItemCategoriesRes;
 import com.devteria.identity_service.items.dto.ItemCategoriesUpdateReq;
@@ -7,6 +8,7 @@ import com.devteria.identity_service.items.entity.ItemCategories;
 import com.devteria.identity_service.items.service.ItemCategoriesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -45,6 +47,19 @@ public class ItemCategoriesController {
         itemCategoriesService.deleteItemCategories(id);
         return "Đã xóa thành công loại vật tư!";
     }
+
+
+    @GetMapping("/api/v1/item_categories")
+    public Page<ItemCategoriesRes> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) ItemStatus status
+    ) {
+        System.out.println(status);
+        return itemCategoriesService.getAll(page, size, status);
+    }
+
+
 
 
 
