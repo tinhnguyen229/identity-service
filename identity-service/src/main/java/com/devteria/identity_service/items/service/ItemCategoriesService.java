@@ -4,22 +4,28 @@ import com.devteria.identity_service.common.enumerate.ItemStatus;
 import com.devteria.identity_service.items.dto.ItemCategoriesCreateReq;
 import com.devteria.identity_service.items.dto.ItemCategoriesRes;
 import com.devteria.identity_service.items.dto.ItemCategoriesUpdateReq;
+import com.devteria.identity_service.items.dto.ItemGroupsRes;
 import com.devteria.identity_service.items.entity.ItemCategories;
+import com.devteria.identity_service.items.entity.ItemGroups;
 import com.devteria.identity_service.items.mapper.ItemCategoriesMapper;
 import com.devteria.identity_service.items.repository.ItemCategoriesRepo;
+import com.devteria.identity_service.items.repository.ItemGroupsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemCategoriesService {
     @Autowired
     ItemCategoriesRepo itemCategoriesRepo;
+
+    @Autowired
+    ItemGroupsRepo itemGroupsRepo;
 
     @Autowired
     ItemCategoriesMapper itemCategoriesMapper;
@@ -69,7 +75,48 @@ public class ItemCategoriesService {
             result = itemCategoriesRepo.findAllByIsDeleteFalse(pageable);
         }
 
-        return result.map(entity -> this.toResponse(entity));
+        List<ItemCategories> categories = result.getContent();
+        List<Long> categoryIds = categories.stream().map(category -> category.getId()).toList();
+        System.out.println(categories);
+        System.out.println(categoryIds);
+
+        List<ItemGroups> groups = itemGroupsRepo.findByCategoryIdInAndIsDeleteFalse(categoryIds);
+        System.out.println(groups);
+
+        // Mapping categoryId với item_groups
+        Map<Long, List<ItemGroups>> groupMap = groups.stream()
+                .collect(Collectors.groupingBy(group -> group.getCategoryId()));
+
+        System.out.println(groupMap);
+
+        List<ItemCategoriesRes> content = categories.stream()
+            .map(category -> {
+                List<ItemGroupsRes> groupRes = groupMap
+                    .getOrDefault(category.getId(), List.of())
+                    .stream()
+                    .map(
+                        g -> ItemGroupsRes.builder()
+                                .id(g.getId())
+                                .name(g.getName())
+                                .status(g.getStatus().name())
+                                .note(g.getNote())
+                                .usingTime(g.getUsingTime())
+                                .categoryId(g.getCategoryId())
+                                .build()
+                    )
+                    .toList();
+
+                return ItemCategoriesRes.builder()
+                        .id(category.getId())
+                        .name(category.getName())
+                        .code(category.getCode())
+                        .itemGroups(groupRes)
+                        .build();
+            }).toList();
+
+        System.out.println(content);
+        return new PageImpl<>(content, pageable, result.getTotalElements());
+//        return result.map(entity -> this.toResponse(entity));
     }
 
     private ItemCategoriesRes toResponse(ItemCategories entity) {
