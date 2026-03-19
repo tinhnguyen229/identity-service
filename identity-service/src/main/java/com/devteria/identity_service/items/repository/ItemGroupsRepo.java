@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ItemGroupsRepo extends JpaRepository<ItemGroups, Long> {
     List<ItemGroups> findByCategoryIdInAndIsDeleteFalse(List<Long> categoryIds);
+    ItemGroups findByIdAndIsDeleteFalse(Long id);
 }
