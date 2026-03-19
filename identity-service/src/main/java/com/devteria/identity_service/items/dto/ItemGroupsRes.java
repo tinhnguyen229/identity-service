@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @Builder
@@ -19,4 +21,5 @@ public class ItemGroupsRes {
     private String status;
     private String note;
     private String usingTime;
+    List<ItemsRes> itemsRes;
 }

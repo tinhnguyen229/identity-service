@@ -1,15 +1,14 @@
 package com.devteria.identity_service.items.service;
 
 import com.devteria.identity_service.common.enumerate.ItemStatus;
-import com.devteria.identity_service.items.dto.ItemCategoriesCreateReq;
-import com.devteria.identity_service.items.dto.ItemCategoriesRes;
-import com.devteria.identity_service.items.dto.ItemCategoriesUpdateReq;
-import com.devteria.identity_service.items.dto.ItemGroupsRes;
+import com.devteria.identity_service.items.dto.*;
 import com.devteria.identity_service.items.entity.ItemCategories;
 import com.devteria.identity_service.items.entity.ItemGroups;
+import com.devteria.identity_service.items.entity.Items;
 import com.devteria.identity_service.items.mapper.ItemCategoriesMapper;
 import com.devteria.identity_service.items.repository.ItemCategoriesRepo;
 import com.devteria.identity_service.items.repository.ItemGroupsRepo;
+import com.devteria.identity_service.items.repository.ItemsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,10 @@ import java.util.stream.Collectors;
 public class ItemCategoriesService {
     @Autowired
     ItemCategoriesRepo itemCategoriesRepo;
-
     @Autowired
     ItemGroupsRepo itemGroupsRepo;
+    @Autowired
+    ItemsRepo itemsRepo;
 
     @Autowired
     ItemCategoriesMapper itemCategoriesMapper;
@@ -76,33 +76,51 @@ public class ItemCategoriesService {
         }
 
         List<ItemCategories> categories = result.getContent();
+
         List<Long> categoryIds = categories.stream().map(category -> category.getId()).toList();
-        System.out.println(categories);
-        System.out.println(categoryIds);
-
         List<ItemGroups> groups = itemGroupsRepo.findByCategoryIdInAndIsDeleteFalse(categoryIds);
-        System.out.println(groups);
-
         // Mapping categoryId với item_groups
-        Map<Long, List<ItemGroups>> groupMap = groups.stream()
+        Map<Long, List<ItemGroups>> categoryGroupsMap = groups.stream()
                 .collect(Collectors.groupingBy(group -> group.getCategoryId()));
 
-        System.out.println(groupMap);
+        List<Long> groupIds = groups.stream().map(gr -> gr.getId()).toList();
+        List<Items> items = itemsRepo.findByGroupIdInAndIsDeleteIsFalse(groupIds);
+        // Mapping groupId với items
+        Map<Long, List<Items>> groupItemsMap = items.stream()
+                .collect(Collectors.groupingBy(item -> item.getGroupId()));
+
 
         List<ItemCategoriesRes> content = categories.stream()
             .map(category -> {
-                List<ItemGroupsRes> groupRes = groupMap
+                List<ItemGroupsRes> groupRes = categoryGroupsMap
                     .getOrDefault(category.getId(), List.of())
                     .stream()
                     .map(
-                        g -> ItemGroupsRes.builder()
-                                .id(g.getId())
-                                .name(g.getName())
-                                .status(g.getStatus().name())
-                                .note(g.getNote())
-                                .usingTime(g.getUsingTime())
-                                .categoryId(g.getCategoryId())
-                                .build()
+                        g -> {
+                            List<ItemsRes> itemRes = groupItemsMap
+                                .getOrDefault(g.getId(), List.of())
+                                .stream()
+                                .map(
+                                    item -> ItemsRes.builder()
+                                    .id(item.getId())
+                                    .groupId(g.getId())
+                                    .name(item.getName())
+                                    .code(item.getCode())
+                                    .unit(item.getUnit())
+                                    .build()
+                                )
+                                .toList();
+
+                            return ItemGroupsRes.builder()
+                                    .id(g.getId())
+                                    .name(g.getName())
+                                    .status(g.getStatus().name())
+                                    .note(g.getNote())
+                                    .usingTime(g.getUsingTime())
+                                    .categoryId(g.getCategoryId())
+                                    .itemsRes(itemRes)
+                                    .build();
+                        }
                     )
                     .toList();
 
