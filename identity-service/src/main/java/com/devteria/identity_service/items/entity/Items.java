@@ -28,6 +28,7 @@ public class Items {
     @Column(name = "code_erp")
     private String codeErp;
 
+    @Builder.Default
     @Column(name = "is_delete")
     private Boolean isDelete = false;
 

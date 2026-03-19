@@ -1,9 +1,28 @@
 package com.devteria.identity_service.items.service;
 
 
+import com.devteria.identity_service.items.dto.ItemsCreateReq;
+import com.devteria.identity_service.items.entity.Items;
+import com.devteria.identity_service.items.repository.ItemsRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ItemsService {
+    @Autowired
+    private ItemsRepo itemsRepo;
+
+
+    public Items createItem(ItemsCreateReq request) {
+        Items items = Items
+                .builder()
+                .groupId(request.getGroupId())
+                .name(request.getName())
+                .code(request.getCode())
+                .unit(request.getUnit())
+                .codeErp(request.getCodeErp())
+                .build();
+        return itemsRepo.save(items);
+    }
 
 }
